@@ -29,15 +29,18 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from raysect.core.math.point cimport Point3D, Point2D, new_point3d, new_point2d
-from raysect.core.math.vector cimport Vector2D, new_vector2d, Vector3D, new_vector3d
-from raysect.core.math.normal cimport Normal3D, new_normal3d
-from raysect.core.math.affinematrix cimport AffineMatrix3D, new_affinematrix3d
-from raysect.core.math.quaternion cimport Quaternion, new_quaternion
-from raysect.core.math.transform cimport translate, rotate_x, rotate_y, rotate_z, rotate_vector, rotate, rotate_basis, to_cylindrical, from_cylindrical, extract_translation, extract_rotation
-from raysect.core.math.units cimport *
-from raysect.core.math.statsarray cimport StatsBin, StatsArray1D, StatsArray2D, StatsArray3D
-from raysect.core.math.sampler cimport *
-from raysect.core.math.polygon cimport triangulate2d
-from raysect.core.math.interpolation cimport *
+import cython
+
+cpdef enum InterpolationType:
+    LinearInterpolation = 0
+    CubicInterpolation = 1
+
+cpdef enum ExtrapolationType:
+    NearestExtrapolation = 0
+    LinearExtrapolation = 1
+    QuadraticExtrapolation = 2
+
+
+
+
 

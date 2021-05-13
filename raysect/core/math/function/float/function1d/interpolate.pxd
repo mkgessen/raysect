@@ -29,15 +29,39 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from raysect.core.math.point cimport Point3D, Point2D, new_point3d, new_point2d
-from raysect.core.math.vector cimport Vector2D, new_vector2d, Vector3D, new_vector3d
-from raysect.core.math.normal cimport Normal3D, new_normal3d
-from raysect.core.math.affinematrix cimport AffineMatrix3D, new_affinematrix3d
-from raysect.core.math.quaternion cimport Quaternion, new_quaternion
-from raysect.core.math.transform cimport translate, rotate_x, rotate_y, rotate_z, rotate_vector, rotate, rotate_basis, to_cylindrical, from_cylindrical, extract_translation, extract_rotation
-from raysect.core.math.units cimport *
-from raysect.core.math.statsarray cimport StatsBin, StatsArray1D, StatsArray2D, StatsArray3D
-from raysect.core.math.sampler cimport *
-from raysect.core.math.polygon cimport triangulate2d
-from raysect.core.math.interpolation cimport *
+cimport cython
+from raysect.core.math.function.float.function1d.base cimport Function1D
+from raysect.core.math.cython.interpolation.linear cimport linear1d
 
+from numpy cimport ndarray
+
+cdef class Interpolate1D(Function1D):
+    cdef:
+        #double[::1] _x, _f
+        ndarray _x, _f
+        Interpolate1D _impl
+
+
+cdef class Interpolate1DLinear(Interpolate1D):
+    pass
+
+cdef class Interpolate1DCubic(Interpolate1D):
+    pass
+
+cdef class Extrapolator1D(Function1D):
+    cdef:
+        Extrapolator1D _impl
+        double _range
+
+
+cdef class Extrapolator1DNone(Extrapolator1D):
+    pass
+
+cdef class Extrapolator1DNearest(Extrapolator1D):
+    pass
+
+cdef class Extrapolator1DLinear(Extrapolator1D):
+    pass
+
+cdef class Extrapolator1DCubic(Extrapolator1D):
+    pass

@@ -40,3 +40,4 @@ from .statsarray import StatsBin, StatsArray1D, StatsArray2D, StatsArray3D
 from .sampler import *
 from .polygon import triangulate2d
 from .function import *
+from .interpolation import *

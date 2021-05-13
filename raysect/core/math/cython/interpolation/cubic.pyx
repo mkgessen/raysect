@@ -36,16 +36,17 @@ cimport numpy as np
 
 def test(x, y):
 
-    return cubic2d(
-        np.array([0.0, 5.0]),
-        np.array([2.0, 4.0]),
-        np.array([[0.0, 0.0], [1.0, 1.0]]),
-        np.array([[0.0, 0.0], [-1.0, -1.0]]),
-        np.array([[0.0, 0.0], [0.0, 0.0]]),
-        np.array([[0.0, 0.0], [0.0, 0.0]]),
-        x,
-        y
-    )
+    # return cubic2d(
+    #     np.array([0.0, 5.0]),
+    #     np.array([2.0, 4.0]),
+    #     np.array([[0.0, 0.0], [1.0, 1.0]]),
+    #     np.array([[0.0, 0.0], [-1.0, -1.0]]),
+    #     np.array([[0.0, 0.0], [0.0, 0.0]]),
+    #     np.array([[0.0, 0.0], [0.0, 0.0]]),
+    #     x,
+    #     y
+    # )
+    pass
 
 # # todo: SHOULD THIS DO NORMALISATION? OR SHOULD IT BE A UNIT SQUARE?
 # @cython.boundscheck(False)
