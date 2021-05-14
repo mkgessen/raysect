@@ -40,7 +40,7 @@ cdef class Interpolate1D(Function1D):
         #double[::1] _x, _f
         ndarray _x, _f
         Interpolate1D _impl
-
+        Extrapolator1D _extrapolator
 
 cdef class Interpolate1DLinear(Interpolate1D):
     pass
@@ -49,9 +49,12 @@ cdef class Interpolate1DCubic(Interpolate1D):
     pass
 
 cdef class Extrapolator1D(Function1D):
+    cdef double _extrapolate(self, double px, int order, int index, double rx) except? -1e999
+
     cdef:
         Extrapolator1D _impl
         double _range
+        ndarray _x, _f
 
 
 cdef class Extrapolator1DNone(Extrapolator1D):
@@ -59,9 +62,9 @@ cdef class Extrapolator1DNone(Extrapolator1D):
 
 cdef class Extrapolator1DNearest(Extrapolator1D):
     pass
-
-cdef class Extrapolator1DLinear(Extrapolator1D):
-    pass
-
-cdef class Extrapolator1DCubic(Extrapolator1D):
-    pass
+#
+# cdef class Extrapolator1DLinear(Extrapolator1D):
+#     pass
+#
+# cdef class Extrapolator1DCubic(Extrapolator1D):
+#     pass

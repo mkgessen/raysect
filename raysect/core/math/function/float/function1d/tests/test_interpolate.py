@@ -1,5 +1,5 @@
 import numpy as np
-from raysect.core.math.function.float.function1d.interpolate import Interpolate1D
+from raysect.core.math.function.float.function1d.interpolate import Interpolate1D, Extrapolator1D
 from raysect.core.math.function.float.function1d.cmath import Sin1D, Cos1D
 from raysect.core.math.interpolation import InterpolationType
 import matplotlib.pyplot as plt
@@ -9,11 +9,12 @@ func = np.sin(x)
 
 plt.plot(x, func)
 
-sin_interp = Interpolate1D(x, func, 'linear') #InterpolationType.LinearInterpolation)
+
+sin_interp = Interpolate1D(x, func, 'linear', extrapolator=Extrapolator1D('nearest', 1.0))
 
 result = []
 
-test_scale = np.linspace(0, 2, num=20)
+test_scale = np.linspace(0, 5, num=20)
 for t in test_scale:
     print(sin_interp(t), t)
     result.append(sin_interp(t))
