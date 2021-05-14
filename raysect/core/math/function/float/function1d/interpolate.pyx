@@ -100,6 +100,8 @@ cdef class Extrapolator1D:
             self._impl = Extrapolator1DNearest(range)
         elif extrapolation_type == 'none':
             self._impl = ExtrapolatorNone()
+        elif extrapolation_type == 'linear':
+            self._impl = Extrapolator1DLinear(range)
 
     @property
     def range(self):
@@ -124,9 +126,12 @@ cdef class Extrapolator1DNearest(Extrapolator1D):
         print("nearest created")
 
     cdef double _extrapolate(self, double px, int order, int index, double rx) except? -1e999:
-        print(f"_extrapolate px:{px}, order:{order}, index:{index}, rx:{rx}")
-        print(type(self._x), type(self._f))
-        return lerp(self._x[index], self._x[index + 1], self._f[index], self._f[index + 1], px)
+        cdef int nx = self._x.shape[0]
+
+        if px < self._x[0]:
+            return self._f[0]
+        elif px > self._x[nx-1]:
+            return self._f[nx-1]
 
 cdef class Extrapolator1DLinear(Extrapolator1D):
     def __init__(self, range):

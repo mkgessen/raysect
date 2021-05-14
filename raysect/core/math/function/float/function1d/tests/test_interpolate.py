@@ -12,14 +12,19 @@ plt.plot(x, func)
 
 sin_interp = Interpolate1D(x, func, 'linear', extrapolator=Extrapolator1D('nearest', 2.0))
 
+sin_interp2 = Interpolate1D(x, func, 'linear', extrapolator=Extrapolator1D('linear', 2.0))
+
 result = []
+result2 = []
 
 test_scale = np.linspace(0, 5, num=20)
 for t in test_scale:
     print(sin_interp(t), t)
     result.append(sin_interp(t))
+    result2.append(sin_interp2(t))
 
 print(sin_interp.domain) # x_min, x_max, f_min, f_max
 plt.scatter(test_scale, result, color='r')
+plt.scatter(test_scale, result2, color='g')
 
 plt.show()
