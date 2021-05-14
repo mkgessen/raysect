@@ -10,7 +10,7 @@ func = np.sin(x)
 plt.plot(x, func)
 
 
-sin_interp = Interpolate1D(x, func, 'linear', extrapolator=Extrapolator1D('nearest', 1.0))
+sin_interp = Interpolate1D(x, func, 'linear', extrapolator=Extrapolator1D('nearest', 2.0))
 
 result = []
 

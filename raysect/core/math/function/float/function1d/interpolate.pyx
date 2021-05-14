@@ -59,9 +59,13 @@ cdef class Interpolate1DLinear(Interpolate1D):
             return linear1d(self._x[index], self._x[index+1], self._f[index], self._f[index+1], x)
         elif index == -1:
             print("extrapolating down")
+            if x < self._extrapolator.range[0]:
+                raise ValueError(f"The specified value (x={x}) is outside of extrapolation range {self._extrapolator.range}")
             return self._extrapolator._extrapolate(x, 0, 0, self._x[0])
         elif index == nx - 1:
             print("extrapolating up")
+            if x > self._extrapolator.range[1]:
+                raise ValueError(f"The specified value (x={x}) is outside of extrapolation range {self._extrapolator.range}")
             return self._extrapolator._extrapolate(x, 0, nx - 2, self._x[nx - 1])
         # if index == -1 or index == len(self._x) -1:
         #     self._extrapolator.evaluate()
@@ -87,8 +91,7 @@ cdef class Interpolate1DCubic(Interpolate1D):
         raise NotImplementedError(f"{self.__class__} not implemented")
 
 
-
-cdef class Extrapolator1D(Function1D):
+cdef class Extrapolator1D:
     def __init__(self, str extrapolation_type, double range):
         self._range = range
 
@@ -98,11 +101,15 @@ cdef class Extrapolator1D(Function1D):
         elif extrapolation_type == 'none':
             self._impl = ExtrapolatorNone()
 
-    cdef double evaluate(self, double x) except? -1e999:
-        raise NotImplementedError(f"{self.__class__} not implemented")
+    @property
+    def range(self):
+        min_range = self._impl._x[0] - self._impl._range
+        max_range = self._impl._x[self._impl._x.shape[0] - 1] + self._impl._range
+        return min_range, max_range
 
     cdef double _extrapolate(self, double px, int order, int index, double rx) except? -1e999:
         return self._impl._extrapolate(px, order, index, rx)
+
 
 cdef class ExtrapolatorNone(Extrapolator1D):
     def __init__(self):
@@ -121,11 +128,18 @@ cdef class Extrapolator1DNearest(Extrapolator1D):
         print(type(self._x), type(self._f))
         return lerp(self._x[index], self._x[index + 1], self._f[index], self._f[index + 1], px)
 
-#
-# cdef class Extrapolator1DLinear(Extrapolator1D):
-#     def __init__(self):
-#         pass
-#
+cdef class Extrapolator1DLinear(Extrapolator1D):
+    def __init__(self, range):
+        self._range = range
+        print("nearest created")
+
+    cdef double _extrapolate(self, double px, int order, int index, double rx) except? -1e999:
+        print(f"_extrapolate px:{px}, order:{order}, index:{index}, rx:{rx}")
+        print(type(self._x), type(self._f))
+        return lerp(self._x[index], self._x[index + 1], self._f[index], self._f[index + 1], px)
+
+
+
 # cdef class Extrapolator1DQuadratic(Extrapolator1D):
 #     def __init__(self):
 #         pass
